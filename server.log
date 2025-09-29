@@ -1,0 +1,24 @@
+FastCGI сервер запущен на порту 8080
+Откройте http://localhost:8080 в браузере
+Ошибка обработки запроса: too many bytes to write to stream
+java.io.IOException: too many bytes to write to stream
+	at jdk.httpserver/sun.net.httpserver.FixedLengthOutputStream.write(FixedLengthOutputStream.java:79)
+	at java.base/java.io.FilterOutputStream.write(FilterOutputStream.java:110)
+	at jdk.httpserver/sun.net.httpserver.PlaceholderOutputStream.write(ExchangeImpl.java:462)
+	at org.example.FastCGIServer$PointCheckerHandler.sendErrorResponse(FastCGIServer.java:195)
+	at org.example.FastCGIServer$PointCheckerHandler.handle(FastCGIServer.java:112)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)
+	at jdk.httpserver/sun.net.httpserver.AuthFilter.doFilter(AuthFilter.java:82)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:101)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange$LinkHandler.handle(ServerImpl.java:871)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange.run(ServerImpl.java:847)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$DefaultExecutor.execute(ServerImpl.java:203)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Dispatcher.handle(ServerImpl.java:566)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Dispatcher.run(ServerImpl.java:531)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+	Suppressed: java.io.IOException: insufficient bytes written to stream
+		at jdk.httpserver/sun.net.httpserver.FixedLengthOutputStream.close(FixedLengthOutputStream.java:92)
+		at jdk.httpserver/sun.net.httpserver.PlaceholderOutputStream.close(ExchangeImpl.java:477)
+		at org.example.FastCGIServer$PointCheckerHandler.sendErrorResponse(FastCGIServer.java:194)
+		... 11 more
