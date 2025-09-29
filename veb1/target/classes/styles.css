@@ -1,0 +1,249 @@
+в/* Сброс стилей и базовые настройки */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    line-height: 1.6;
+}
+
+/* Шапка страницы */
+.header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Основной контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+}
+
+/* Левая панель с формой */
+.form-panel {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Правая панель с графиком */
+.graph-panel {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Заголовки секций */
+.section-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* Форма */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Чекбоксы для X */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #3498db;
+}
+
+.checkbox-item label {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Текстовое поле для Y */
+.text-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.text-input.error {
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
+}
+
+/* Радиокнопки для R */
+.radio-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 2px solid #ecf0f1;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.radio-item:hover {
+    border-color: #3498db;
+    background-color: #f8f9fa;
+}
+
+.radio-item input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #3498db;
+}
+
+.radio-item label {
+    font-size: 16px;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Кнопка отправки */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+
+.submit-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* SVG график */
+.graph-svg {
+    width: 400px;
+    height: 400px;
+    border: 2px solid #34495e;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Таблица результатов */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.results-table th {
+    background-color: #34495e;
+    color: white;
+    font-weight: bold;
+}
+
+.results-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.result-hit {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.result-miss {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .radio-group {
+        grid-template-columns: 1fr;
+    }
+}

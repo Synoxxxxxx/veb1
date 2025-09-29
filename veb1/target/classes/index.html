@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа - Проверка попадания точки в область</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка страницы -->
+    <div class="header">
+        ФИО: Аникин Максим Иванович<br>
+        Группа: P3224<br>
+        Вариант: 413731
+    </div>
+
+    <div class="container">
+        <!-- Левая панель с формой -->
+        <div class="form-panel">
+            <h2 class="section-title">Параметры точки</h2>
+            
+            <form id="pointForm">
+                <!-- Координата X -->
+                <div class="form-group">
+                    <label class="form-label">Координата X:</label>
+                    <div class="checkbox-group" id="xCheckboxes">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x-4" name="x" value="-4">
+                            <label for="x-4">-4</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x-3" name="x" value="-3">
+                            <label for="x-3">-3</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x-2" name="x" value="-2">
+                            <label for="x-2">-2</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x-1" name="x" value="-1">
+                            <label for="x-1">-1</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x0" name="x" value="0">
+                            <label for="x0">0</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x1" name="x" value="1">
+                            <label for="x1">1</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x2" name="x" value="2">
+                            <label for="x2">2</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x3" name="x" value="3">
+                            <label for="x3">3</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="x4" name="x" value="4">
+                            <label for="x4">4</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="xError">Выберите значение X</div>
+                </div>
+
+                <!-- Координата Y -->
+                <div class="form-group">
+                    <label class="form-label">Координата Y:</label>
+                    <input type="text" id="yInput" name="y" class="text-input" placeholder="Введите значение от -5 до 5">
+                    <div class="error-message" id="yError">Введите корректное значение Y</div>
+                </div>
+
+                <!-- Радиус R -->
+                <div class="form-group">
+                    <label class="form-label">Радиус R:</label>
+                    <div class="radio-group" id="rRadio">
+                        <div class="radio-item">
+                            <input type="radio" id="r1" name="r" value="1">
+                            <label for="r1">1</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="r1.5" name="r" value="1.5">
+                            <label for="r1.5">1.5</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="r2" name="r" value="2">
+                            <label for="r2">2</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="r2.5" name="r" value="2.5">
+                            <label for="r2.5">2.5</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="r3" name="r" value="3">
+                            <label for="r3">3</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="rError">Выберите значение R</div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Проверить точку</button>
+            </form>
+
+            <!-- Таблица результатов -->
+            <div id="resultsContainer" style="display: none;">
+                <h3 class="section-title">Результаты проверки</h3>
+                <table class="results-table" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>R</th>
+                            <th>Результат</th>
+                            <th>Время</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Правая панель с графиком -->
+        <div class="graph-panel">
+            <h2 class="section-title">График области</h2>
+            <svg class="graph-svg" id="graphSvg" viewBox="0 0 400 400">
+                <!-- Оси координат -->
+                <line x1="200" y1="0" x2="200" y2="400" stroke="#34495e" stroke-width="2"/>
+                <line x1="0" y1="200" x2="400" y2="200" stroke="#34495e" stroke-width="2"/>
+                
+                <!-- Подписи осей -->
+                <text x="390" y="195" text-anchor="middle" font-size="12" fill="#34495e">X</text>
+                <text x="205" y="15" text-anchor="middle" font-size="12" fill="#34495e">Y</text>
+                
+                <!-- Область (будет обновляться динамически) -->
+                <g id="areaGroup">
+                    <!-- Прямоугольник в I квадранте -->
+                    <rect id="rect1" x="200" y="150" width="100" height="50" fill="#3498db" opacity="0.7"/>
+                    <!-- Четверть круга во II квадранте -->
+                    <path id="arc1" d="M 200 200 A 50 50 0 0 1 150 150 L 200 200 Z" fill="#3498db" opacity="0.7"/>
+                    <!-- Треугольник в III квадранте -->
+                    <path id="triangle1" d="M 200 200 L 150 200 L 200 250 Z" fill="#3498db" opacity="0.7"/>
+                </g>
+                
+                <!-- Точка (будет отображаться при проверке) -->
+                <circle id="pointCircle" cx="200" cy="200" r="4" fill="#e74c3c" opacity="0" stroke="#e74c3c" stroke-width="2"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript код для валидации и AJAX запросов
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('pointForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const yInput = document.getElementById('yInput');
+            const graphSvg = document.getElementById('graphSvg');
+            const pointCircle = document.getElementById('pointCircle');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsBody = document.getElementById('resultsBody');
+
+            // Валидация формы
+            function validateForm() {
+                let isValid = true;
+                
+                // Проверка X (должен быть выбран ровно один чекбокс)
+                const xCheckboxes = document.querySelectorAll('input[name="x"]:checked');
+                if (xCheckboxes.length === 0) {
+                    document.getElementById('xError').classList.add('show');
+                    document.getElementById('xError').textContent = 'Выберите значение X';
+                    isValid = false;
+                } else if (xCheckboxes.length > 1) {
+                    document.getElementById('xError').classList.add('show');
+                    document.getElementById('xError').textContent = 'Выберите только одно значение X';
+                    isValid = false;
+                } else {
+                    document.getElementById('xError').classList.remove('show');
+                }
+
+                // Проверка Y (число от -5 до 5)
+                const yText = yInput.value.trim();
+                // Проверяем, что введено корректное число
+                if (!/^-?\d+([.,]\d+)?$/.test(yText)) {
+                    document.getElementById('yError').textContent = 'Введите корректное число (например: 3.5 или -2.1)';
+                    document.getElementById('yError').classList.add('show');
+                    yInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    // Заменяем запятую на точку для корректного парсинга
+                    const normalizedY = yText.replace(',', '.');
+                    const yValue = parseFloat(normalizedY);
+                    
+                    if (isNaN(yValue) || yValue < -5 || yValue > 5) {
+                        document.getElementById('yError').textContent = 'Введите значение Y от -5 до 5';
+                        document.getElementById('yError').classList.add('show');
+                        yInput.classList.add('error');
+                        isValid = false;
+                    } else {
+                        document.getElementById('yError').classList.remove('show');
+                        yInput.classList.remove('error');
+                    }
+                }
+
+                // Проверка R (должна быть выбрана одна радиокнопка)
+                const rRadio = document.querySelector('input[name="r"]:checked');
+                if (!rRadio) {
+                    document.getElementById('rError').classList.add('show');
+                    isValid = false;
+                } else {
+                    document.getElementById('rError').classList.remove('show');
+                }
+
+                return isValid;
+            }
+
+            // Обновление графика
+            function updateGraph(r) {
+                const scale = 40; // Увеличили масштаб для лучшей видимости
+                const centerX = 200;
+                const centerY = 200;
+
+                // Обновляем размеры области в зависимости от R
+                const rectWidth = r * scale;
+                const rectHeight = (r / 2) * scale;
+                const arcRadius = (r / 2) * scale;
+                const triangleSize = (r / 2) * scale;
+
+                // Прямоугольник в I квадранте (справа вверху)
+                document.getElementById('rect1').setAttribute('x', centerX);
+                document.getElementById('rect1').setAttribute('y', centerY - rectHeight);
+                document.getElementById('rect1').setAttribute('width', rectWidth);
+                document.getElementById('rect1').setAttribute('height', rectHeight);
+
+                // Четверть круга во II квадранте (слева вверху) - через сектор
+                const arcPath = `M ${centerX} ${centerY} L ${centerX} ${centerY - arcRadius} A ${arcRadius} ${arcRadius} 0 0 0 ${centerX - arcRadius} ${centerY} Z`;
+                document.getElementById('arc1').setAttribute('d', arcPath);
+                document.getElementById('arc1').setAttribute('opacity', '0.8');
+
+                // Треугольник в III квадранте (слева внизу)
+                const trianglePath = `M ${centerX} ${centerY} L ${centerX - (r/2) * scale} ${centerY} L ${centerX} ${centerY + r * scale} Z`;
+                document.getElementById('triangle1').setAttribute('d', trianglePath);
+            }
+
+            // Отображение точки на графике
+            function showPoint(x, y, r) {
+                const scale = 40; // Увеличили масштаб для соответствия updateGraph
+                const centerX = 200;
+                const centerY = 200;
+                
+                const pointX = centerX + (x * scale);
+                const pointY = centerY - (y * scale);
+                
+                pointCircle.setAttribute('cx', pointX);
+                pointCircle.setAttribute('cy', pointY);
+                pointCircle.setAttribute('opacity', '1');
+            }
+
+            // Обработка отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+
+                const xCheckboxes = document.querySelectorAll('input[name="x"]:checked');
+                // Используем точное значение без округления, заменяем запятую на точку
+                const yValue = parseFloat(yInput.value.replace(',', '.'));
+                const rValue = parseFloat(document.querySelector('input[name="r"]:checked').value);
+
+                // Обновляем график
+                updateGraph(rValue);
+
+                // Отправляем запрос для каждой выбранной координаты X
+                xCheckboxes.forEach(function(checkbox) {
+                    const xValue = parseFloat(checkbox.value);
+                    
+                    // Показываем точку на графике
+                    showPoint(xValue, yValue, rValue);
+                    
+                    // Отправляем AJAX запрос
+                    fetch(`http://localhost:8080/cgi-bin/point-checker?x=${xValue}&y=${yValue}&r=${rValue}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.text(); // Сначала получаем как текст
+                        })
+                        .then(text => {
+                            try {
+                                // Исправляем запятые на точки в JSON
+                                const fixedText = text.replace(/,(\d+)/g, '.$1');
+                                const data = JSON.parse(fixedText);
+                                // Добавляем результат в таблицу
+                                addResultToTable(data);
+                            } catch (parseError) {
+                                console.error('Ошибка парсинга JSON:', parseError);
+                                console.error('Полученный текст:', text);
+                                alert('Ошибка при обработке ответа сервера');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка:', error);
+                            alert('Ошибка при отправке запроса: ' + error.message);
+                        });
+                });
+            });
+
+            // Добавление результата в таблицу
+            function addResultToTable(data) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.x}</td>
+                    <td>${data.y}</td>
+                    <td>${data.r}</td>
+                    <td class="${data.hit ? 'result-hit' : 'result-miss'}">
+                        ${data.hit ? 'Попадает' : 'Не попадает'}
+                    </td>
+                    <td>${data.timestamp}</td>
+                `;
+                // Добавляем новую строку в начало таблицы
+                const firstRow = resultsBody.firstChild;
+                if (firstRow) {
+                    resultsBody.insertBefore(row, firstRow);
+                } else {
+                    resultsBody.appendChild(row);
+                }
+                resultsContainer.style.display = 'block';
+            }
+
+            // Обработка изменения радиуса для обновления графика
+            document.querySelectorAll('input[name="r"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        updateGraph(parseFloat(this.value));
+                    }
+                });
+            });
+
+            // Обработка чекбоксов X - только один выбор
+            document.querySelectorAll('input[name="x"]').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Снимаем все остальные чекбоксы
+                        document.querySelectorAll('input[name="x"]').forEach(function(other) {
+                            if (other !== checkbox) {
+                                other.checked = false;
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Инициализация графика с R=2
+            updateGraph(2);
+            
+            // Устанавливаем начальное значение R=2
+            document.getElementById('r2').checked = true;
+        });
+    </script>
+</body>
+</html>
